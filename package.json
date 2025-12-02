@@ -1,0 +1,28 @@
+{
+  "name": "nodejs_codefarm",
+  "version": "1.0.0",
+  "description": "NODEJS PROJECT",
+  "main": "index.js ",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thuan1611/NODEJS_CODEFARM.git"
+  },
+  "keywords": [
+    "NODEJS",
+    "CODEFARm"
+  ],
+  "author": "Thuận đẹp chai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thuan1611/NODEJS_CODEFARM/issues"
+  },
+  "homepage": "https://github.com/Thuan1611/NODEJS_CODEFARM#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

@@ -6,12 +6,14 @@ import {
     getProductById,
     updateProduct,
 } from '../controllers/product.controller.js';
+import { productSchema } from '../schema/productSchema.js';
+import validBodyRequest from '../utils/validBodyRequest.js';
 
 const productRouter = new Router();
 
 productRouter.get('/', getAllProduct);
 productRouter.get('/:id', getProductById);
-productRouter.put('/:id', updateProduct);
+productRouter.patch('/:id',validBodyRequest(productSchema), updateProduct);
 productRouter.delete('/:id', deleteProducts);
 productRouter.post('/', createProduct);
 

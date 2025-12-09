@@ -1,92 +1,52 @@
 import Product from '../model/Product.js';
+import createError from '../utils/createError.js';
+import createResponse from '../utils/createResponse.js';
+import handleAsync from '../utils/handleAsync.js';
 
-export const getAllProduct = async (req, res) => {
-    try {
-        const product = await Product.find();
-        return res.status(200).json({
-            data: product,
-            message: 'Lấy danh sách thành công',
-        });
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message,
-        });
+//Danh sách sản phẩm
+export const getAllProduct = handleAsync(async (req, res) => {
+    const product = await Product.find();
+    return res.status(200).json({
+        data: product,
+        message: 'Lấy danh sách thành công',
+    });
+});
+
+//Chi tiết sản phẩm
+export const getProductById = handleAsync(async (req, res) => {
+    const id = req.params.id;
+    const product = await Product.findById(id);
+    if (!product) {
+        return createError(res, 401, 'Không tìm thấy id');
     }
-};
+    return createResponse(res, 201, 'Lấy danh sách thành công theo id', product);
+});
 
-export const getProductById = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const product = await Product.findById(id);
+//Sửa sản phẩm
+export const updateProduct = handleAsync(async (req, res) => {
+    const { params, body } = req;
 
-        if (!product) {
-            return res.status(401).json({
-                message: 'Không tìm thấy sản phẩm chi tiết',
-            });
-        }
-
-        return res.status(200).json({
-            data: product,
-            message: 'Lấy danh sách thành công theo id',
-        });
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message,
-        });
+    const product = await Product.findByIdAndUpdate(params.id, body, { new: true });
+    if (!product) {
+        createError(res, 401, 'Không tìm thấy id');
     }
-};
+    return createResponse(res, 201, 'Sửa sản phẩm thành công', product);
+});
 
-export const updateProduct = async (req, res) => {
-    try {
-        const { params, body } = req;
+//Thêm sản phẩm
+export const createProduct = handleAsync(async (req, res) => {
+    const product = await Product.create(req.body);
+    return createResponse(res, 201, 'Thêm sản phẩm thành công', product);
+});
 
-        const product = await Product.findByIdAndUpdate(params.id, body, { new: true });
-        if (!product) {
-            res.status(401).json({
-                message: 'Sửa thất bại',
-            });
-        }
-        return res.status(200).json({
-            data: product,
-            message: 'Sửa thành công',
-        });
-    } catch (error) {
-        return res.status(500).json({
-            message: 'Lỗi',
-        });
+//Xóa sản phẩm
+export const deleteProducts = handleAsync(async (req, res) => {
+    const id = req.params.id;
+
+    const product = await Product.findByIdAndDelete(id);
+    if (!product) {
+        createError(res, 401, 'Không tìm thấy id');
     }
-};
 
-export const createProduct = async (req, res) => {
-    try {
-        const product = await Product.create(req.body);
-        return res.status(200).json({
-            data: product,
-            message: 'Thêm thành công kk',
-        });
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message,
-        });
-    }
-};
-
-export const deleteProducts = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const product = await Product.findByIdAndDelete(id);
-        if (!product) {
-            res.status(401).json({
-                message: 'Không có sản phẩm để xóa',
-            });
-        }
-        return res.status(200).json({
-            data: product,
-            message: 'Xóa thành công',
-        });
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message,
-        });
-    }
-};
+    return createResponse(res, 201, 'Xóa sản phẩm thành công');
+});

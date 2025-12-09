@@ -14,7 +14,7 @@
   },
   "keywords": [
     "NODEJS",
-    "CODEFARm"
+    "NODEJS_CODEFARM"
   ],
   "author": "Thuận đẹp chai",
   "license": "ISC",
@@ -23,6 +23,10 @@
   },
   "homepage": "https://github.com/Thuan1611/NODEJS_CODEFARM#readme",
   "devDependencies": {
+    "express": "^5.2.1",
     "nodemon": "^3.1.11"
+  },
+  "dependencies": {
+    "mongoose": "^9.0.1"
   }
 }
